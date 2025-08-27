@@ -42,8 +42,128 @@ Backend-сервис для системы аренды жилья.
 ## 🚀 Запуск проекта
 
 ### 1. Клонировать репозиторий
-```bash
-git clone https://github.com/VitalijsFilipovs/SwaggerProject.git
-cd SwaggerProject
 
-2. Создать .env файл
+git clone https://github.com/VitalijsFilipovs/SwaggerProject.git
+cd SwaggerProject ```
+
+
+### 2. Создать .env файл
+
+Пример содержимого (.env в корне):
+
+DJANGO_SECRET_KEY=dev-secret-key
+DJANGO_DEBUG=true
+DJANGO_ALLOWED_HOSTS=*
+
+MYSQL_DATABASE=pagination_db
+MYSQL_USER=pagination_user
+MYSQL_PASSWORD=password
+DB_HOST=db
+DB_PORT=3306
+
+
+### 3. Запуск через Docker
+
+docker-compose up -d --build
+
+
+### 4. Применить миграции и создать суперпользователя
+
+docker-compose run --rm web python manage.py makemigrations
+docker-compose run --rm web python manage.py migrate
+docker-compose run --rm web python manage.py createsuperuser
+
+
+### 5. Открыть в браузере
+
+Главная: http://localhost:8000/
+
+Swagger UI: http://localhost:8000/swagger/
+
+Redoc: http://localhost:8000/redoc/
+
+Admin: http://localhost:8000/admin/
+
+###########################################################
+
+📚 Примеры API
+
+Создать объявление (landlord)
+
+POST /api/listings/listings/
+{
+  "title": "Студия у метро",
+  "description": "5 мин пешком",
+  "city": "Riga",
+  "district": "Center",
+  "address": "Brivibas 12",
+  "price": "450.00",
+  "rooms": 1,
+  "property_type": "studio",
+  "status": "active"
+}
+
+--------
+
+Забронировать (renter)
+
+POST /api/bookings/bookings/
+{
+  "listing": 1,
+  "start_date": "2025-09-01",
+  "end_date": "2025-09-05"
+}
+
+--------
+
+Подтвердить бронь (landlord)
+
+POST /api/bookings/bookings/1/approve/
+
+--------
+
+Оставить отзыв (renter с подтверждённой бронью)
+
+POST /api/reviews/reviews/
+{
+  "listing": 1,
+  "rating": 5,
+  "comment": "Очень уютная студия!"
+}
+
+################################################################
+
+🔑 JWT-аутентификация
+Получить токен
+
+POST /api/token/
+{
+  "username": "user@example.com",
+  "password": "mypassword"
+}
+
+---------
+
+Обновить токен
+
+POST /api/token/refresh/
+{
+  "refresh": "<refresh_token>"
+}
+
+----------
+
+Использовать токен в запросах
+
+В заголовке:
+
+Authorization: Bearer <access_token>
+
+#################################################################
+
+👨‍💻 Автор
+
+Vitalijs Filipovs
+📧 filipovvitalij@gmail.com
+
+
