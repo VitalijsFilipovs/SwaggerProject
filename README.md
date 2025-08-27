@@ -161,6 +161,76 @@ Authorization: Bearer <access_token>
 
 #################################################################
 
+🔎 Поиск, фильтры и сортировка
+Поиск (full-text по полям)
+
+Эндпоинт:
+GET /api/listings/listings/?search=<строка>
+
+Ищет по: title, description, city, district.
+
+Примеры:
+
+/api/listings/listings/?search=Riga
+
+/api/listings/listings/?search=студия
+
+-------------------------------------------------------------
+
+Фильтры
+
+Эндпоинт:
+GET /api/listings/listings/?<filters>
+
+Поддерживаются (из ListingFilter):
+
+price_min — минимальная цена
+
+price_max — максимальная цена
+
+rooms — кол-во комнат
+
+city — город (icontains)
+
+property_type — тип жилья (apartment|house|room|studio)
+
+status — active|inactive
+
+Примеры:
+
+/api/listings/listings/?city=Riga&price_max=700
+
+/api/listings/listings/?rooms=2&property_type=apartment
+
+--------------------------------------------------------
+
+Сортировка (ordering)
+
+Эндпоинт:
+GET /api/listings/listings/?ordering=<поле>
+
+Используй поля:
+
+price, -price
+
+created_at, -created_at
+
+avg_rating, -avg_rating ← средняя оценка (аннотация)
+
+reviews_count, -reviews_count← кол-во отзывов (аннотация)
+
+Примеры:
+
+/api/listings/listings/?ordering=-price — от дорогих к дешёвым
+
+/api/listings/listings/?search=Riga&ordering=-avg_rating — в Риге, сначала самые высоко оценённые
+
+/api/listings/listings/?ordering=-reviews_count — самые обсуждаемые
+
+Поля avg_rating и reviews_count автоматически добавляются к каждому объявлению в ответе.
+
+--------------------------------------------------------------------
+
 👨‍💻 Автор
 
 Vitalijs Filipovs
