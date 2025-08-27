@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Добро пожаловать в Task Manager!</h1>
+
+{% if user.is_authenticated %}
+    <p>Привет, {{ user.username }}!</p>
+{% else %}
+    <p>Пожалуйста, <a href="/accounts/login/">войдите</a>.</p>
+{% endif %}
+
+<a href="/redoc/" class="btn btn-primary">API Docs</a>
+{% endblock %}
